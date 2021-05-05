@@ -28,17 +28,32 @@ export function compress(encodedData) {
  * @param {Boolean} compression 
  * @returns 
  */
-export function encode(value, compression = true) {
+export function encode(value) {
     let encodedValue = '';
     
+    let shift1 = false;
     for (let i = 0; i < value.length; i++) {
         let currentChar = value.charAt(i);
-        let encodedChar = KEYS[currentChar];
+
+        if(shift1 && (isLetter(currentChar) && currentChar !== currentChar.toUpperCase() || !isLetter(currentChar))) {
+            encodedValue += SHIFT_END;
+            shift1 = false;
+        }
+
+        if(!shift1 && isLetter(currentChar) && currentChar == currentChar.toUpperCase()) {
+            encodedValue += SHIFT_START;
+            shift1 = true;
+        } 
+        let encodedChar = KEYS[currentChar.toLowerCase()];
         
         encodedValue += 
             encodedChar === undefined ? '' : encodedChar;
+  
     }
-    return (compression) ? compress(encodedValue) :  encodedValue;
+
+    if(shift1) { encodedValue += SHIFT_END; }
+
+    return encodedValue;
 }
 
 /**
@@ -79,3 +94,7 @@ function getDecodeDictionary(dictionary) {
     }
     return decodeDictionary;
 }
+
+function isLetter(str) {
+    return str.length === 1 && str.match(/[a-z]/i);
+  }

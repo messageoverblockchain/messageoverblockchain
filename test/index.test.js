@@ -26,6 +26,14 @@ describe('Encoding Tests', () => {
     expect(encodeData('A')).toStrictEqual('961097');
   });
 
+  test('Encodes check String', async () => {
+    expect('AfBCnDf').toStrictEqual(decodeData(encodeData('AfBCnDf')));
+  });
+
+  test('Encodes check special char String', async () => {
+    expect('A^BC$Df').toStrictEqual(decodeData(encodeData('A^BC$Df')));
+  });
+
   test('Decode a String', async () => {
     expect(decodeData('961197')).toStrictEqual('B');
   });
