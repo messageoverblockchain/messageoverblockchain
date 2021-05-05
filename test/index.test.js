@@ -22,23 +22,27 @@ describe('Encoding Tests', () => {
   // Test cases
   // -------------------------------------------------------------------------
 
-  test('Encodes String', async () => {
+  test('it should encodes a char', async () => {
     expect(encodeData('A')).toStrictEqual('961097');
   });
 
-  test('Encodes check String', async () => {
+  test('it should encodes a spcial char', async () => {
+    expect(encodeData('^')).toStrictEqual('67');
+  });
+
+  test('it should generate same encoded string', async () => {
     expect('AfBCnDf').toStrictEqual(decodeData(encodeData('AfBCnDf')));
   });
 
-  test('Encodes check special char String', async () => {
+  test('it should generate same encoded string with special char', async () => {
     expect('A^BC$Df').toStrictEqual(decodeData(encodeData('A^BC$Df')));
   });
 
-  test('Decode a String', async () => {
+  test('it should decode a char', async () => {
     expect(decodeData('961197')).toStrictEqual('B');
   });
 
-  test('Convert Txn array into String', async() => {
+  test('it should convert txn array into encoded string', async() => {
     const txns = [
         '0.07396229796289796',
         '0.01697749873630274',
@@ -99,7 +103,7 @@ describe('Encoding Tests', () => {
             '9774989999999999')
   })
 
-  test('Compress encoded String', async() => {
+  test('it should compress an encoded string', async() => {
     expect(compressData(
             '7396229796289796'+
             '1697749873630274'+
@@ -135,7 +139,7 @@ describe('Encoding Tests', () => {
             '112413349774987369630274987369962228169774989999999999')
   })
 
-  test('String to txn array', async() => {
+  test('it should convert string to txn array', async() => {
 
     const input = {
         MSG: {
